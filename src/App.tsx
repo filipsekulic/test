@@ -6,19 +6,20 @@ import AssetList from "./asset-list";
 function App() {
   const [assets, setAssets] = useState<Asset[]>([]);
 
-  useEffect(() => {
-    // Make a GET request to fetch assets when the component mounts
-    axios
-        .get('/assets')
-        .then((response) => {
-          if (Array.isArray(response.data)) {
-            setAssets(response.data);
-          }
-        })
-        .catch((error) => {
-          // Handle errors if needed
+  const handleSearchAssets = async () => {
+      try {
+          const response = await axios.get('http://localhost:8080/assets');
+          const data = await response.data;
+
+          setAssets(data);
+
+      } catch (error) {
           console.error('Error:', error);
-        });
+      }
+  }
+
+  useEffect(() => {
+      handleSearchAssets();
   }, []);
 
   return (

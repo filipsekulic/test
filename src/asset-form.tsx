@@ -6,7 +6,6 @@ export interface Asset {
     quantity: number;
 }
 
-// Component for the POST form
 function AssetForm() {
     const [assetName, setAssetName] = useState<string>('');
     const [quantity, setQuantity] = useState<number | ''>('');
@@ -14,23 +13,24 @@ function AssetForm() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        try {
-            const response = await axios.post('/asset', {
-                assetName,
-                quantity: parseInt(quantity as string),
-            });
+        if (assetName !== '' && quantity > 0) {
+            try {
+                const response = await axios.post('http://localhost:8080/assets', {
+                    assetName,
+                    quantity: parseInt(quantity as string),
+                });
 
-            if (response.status === 200) {
-                // Success - do something if needed
-                setAssetName('');
-                setQuantity('');
-            } else {
-                // Handle errors if the server returns a 500 status
-                console.error('Error:', response);
+                if (response.status === 200) {
+                    setAssetName('');
+                    setQuantity('');
+                } else {
+                    console.error('Error:', response);
+                }
+            } catch (error) {
+                console.error('Error:', error);
             }
-        } catch (error) {
-            // Handle other errors like network issues
-            console.error('Error:', error);
+        } else {
+            window.alert('Asset name is empty or quantity is equal or less than 0')
         }
     };
 
@@ -47,7 +47,7 @@ function AssetForm() {
                 <input
                     type="number"
                     placeholder="Quantity"
-                    value={quantity === '' ? '' : quantity.toString()} // Convert to string if not empty
+                    value={quantity === '' ? '' : quantity.toString()}
                     onChange={(e) => setQuantity(e.target.value === '' ? '' : parseInt(e.target.value))}
                 />
                 <button type="submit">Submit</button>
