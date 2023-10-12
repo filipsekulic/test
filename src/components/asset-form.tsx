@@ -6,7 +6,7 @@ export interface Asset {
     quantity: number;
 }
 
-function AssetForm({ setAssetsUpdated }: { setAssetsUpdated: (updated: boolean) => void }) {
+function AssetForm({ setAssetsLoading }: { setAssetsLoading: (updated: boolean) => void }) {
     const [assetName, setAssetName] = useState<string>('');
     const [quantity, setQuantity] = useState<number | ''>('');
 
@@ -23,7 +23,7 @@ function AssetForm({ setAssetsUpdated }: { setAssetsUpdated: (updated: boolean) 
                 if (response.status === 200) {
                     setAssetName('');
                     setQuantity('');
-                    setAssetsUpdated(true);
+                    setAssetsLoading(true);
                 } else {
                     console.error('Error:', response);
                 }

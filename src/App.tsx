@@ -5,7 +5,7 @@ import AssetList from "./components/asset-list";
 
 function App() {
   const [assets, setAssets] = useState<Asset[]>([]);
-  const [assetsUpdated, setAssetsUpdated] = useState(true);
+  const [assetsLoading, setAssetsLoading] = useState(true);
 
   const handleSearchAssets = async () => {
 
@@ -14,7 +14,7 @@ function App() {
           const data = await response.data;
 
           setAssets(data);
-          setAssetsUpdated(false);
+          setAssetsLoading(false);
       } catch (error) {
           console.error('Error:', error);
       }
@@ -22,13 +22,13 @@ function App() {
 
   useEffect(() => {
       handleSearchAssets();
-  }, [assetsUpdated]);
+  }, [assetsLoading]);
 
   return (
       <div>
         <h1>Asset Management</h1>
-        <AssetForm setAssetsUpdated={setAssetsUpdated} />
-        <AssetList assets={assets} assetsUpdated={assetsUpdated} />
+        <AssetForm setAssetsLoading={setAssetsLoading} />
+        <AssetList assets={assets} assetsLoading={assetsLoading} />
       </div>
   );
 }

@@ -1,10 +1,10 @@
 import {Asset} from "./asset-form";
 
-function AssetList({ assets, assetsUpdated }: { assets: Asset[], assetsUpdated: boolean }) {
+function AssetList({ assets, assetsLoading }: { assets: Asset[], assetsLoading: boolean }) {
     return (
         <div>
             <h2>Assets</h2>
-            {assetsUpdated ? (
+            {assetsLoading ? (
                 <p>Assets loading...</p>
             ) : (
                 <ul>
