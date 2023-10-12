@@ -1,25 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from 'react';
+import AssetForm, {Asset} from "./asset-form";
+import axios from "axios";
+import AssetList from "./asset-list";
 
 function App() {
+  const [assets, setAssets] = useState<Asset[]>([]);
+
+  useEffect(() => {
+    // Make a GET request to fetch assets when the component mounts
+    axios
+        .get('/assets')
+        .then((response) => {
+          if (Array.isArray(response.data)) {
+            setAssets(response.data);
+          }
+        })
+        .catch((error) => {
+          // Handle errors if needed
+          console.error('Error:', error);
+        });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div>
+        <h1>Asset Management</h1>
+        <AssetForm />
+        <AssetList assets={assets} />
+      </div>
   );
 }
 
