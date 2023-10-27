@@ -6,6 +6,7 @@ import AssetList from "./components/asset-list";
 function App() {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [assetsLoading, setAssetsLoading] = useState(true);
+  
 
   const handleSearchAssets = async () => {
 
